@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:views="using:ArchipelagoDebugClient.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ArchipelagoDebugClient.Views.MainView">
+    <dha:DialogHost Name="DialogHost" IsOpen="True" CloseOnClickAway="False">
+        <dha:DialogHost.DialogContent>
+            <Grid Margin="20" ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto" Width="300">
+                <Label Grid.Row="0" Grid.Column="0" Margin="10">Server address</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="0 5" Name="AddressField"/>
+                <Label Grid.Row="1" Grid.Column="0" Margin="10">Slot name</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="0 5" Name="SlotField"/>
+                <Label Grid.Row="2" Grid.Column="0" Margin="10">Password</Label>
+                <TextBox Grid.Row="2" Grid.Column="1" PasswordChar="&#x25CF;" Margin="0 5" Name="PasswordField"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Foreground="Red" Name="ErrorText"
+                           TextWrapping="Wrap" Margin="10" IsVisible="False">
+                    asdfasdfasdfadsf
+                </TextBlock>
+                <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="0 5" Padding="5" Click="OnConnectClicked">Connect</Button>
+            </Grid>
+        </dha:DialogHost.DialogContent>
+
+        <TabControl>
+            <TabItem Header="Log">
+                <views:LogView DataContext="{Binding MessageLog}"/>
+            </TabItem>
+            <TabItem Header="Locations">
+                Coming soon!  
+            </TabItem>
+            <TabItem Header="Deathlink">
+                <views:DeathLinkView DataContext="{Binding DeathLink}"/>
+            </TabItem>
+            <TabItem Header="Gifting">
+                Coming soon!
+            </TabItem>
+            <TabItem Header="DataStorage">
+                <views:DataStorageView DataContext="{Binding DataStorage}"/>
+            </TabItem>
+            <TabItem Header="SlotData">
+                <views:SlotDataView DataContext="{Binding SlotData}"/>
+            </TabItem>
+        </TabControl>
+    </dha:DialogHost>
+</UserControl>
