@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designData="using:ArchipelagoDebugClient.ViewModels.DesignData"
+             xmlns:vm="using:ArchipelagoDebugClient.ViewModels"
+             xmlns:g="using:Archipelago.Gifting.Net.Traits"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ArchipelagoDebugClient.Views.GiftingView">
+    <Design.DataContext>
+        <designData:GiftingDesignData/>
+    </Design.DataContext>
+    <Grid RowDefinitions="*, Auto">
+        <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+            <ItemsControl ItemsSource="{Binding Messages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock TextWrapping="Wrap" Margin="2.5" Text="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ItemsControl ItemsSource="{Binding CurrentTraits}" Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Width="{Binding $self.ActualHeight}" VerticalAlignment="Bottom" Margin="2.5 0" Click="OnRemoveTraitClicked">X</Button>
+                            <StackPanel Margin="2.5 0" Orientation="Vertical">
+                                <Label>Trait</Label>
+                                <AutoCompleteBox Width="100" ItemsSource="{Binding Source={x:Static vm:GiftingViewModel.AvailableTraits}}" Text="{Binding Trait}"/>
+                            </StackPanel>
+                            <StackPanel Margin="2.5 0" Orientation="Vertical">
+                                <Label>Quality</Label>
+                                <NumericUpDown Increment="0.1" Value="{Binding Quality}" Width="120"/>
+                            </StackPanel>
+                            <StackPanel Margin="2.5 0" Orientation="Vertical">
+                                <Label>Duration</Label>
+                                <NumericUpDown Increment="0.1" Value="{Binding Duration}" Width="120"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Margin="5" VerticalAlignment="Bottom" Click="OnAddTraitClicked">Add Trait</Button>
+            <TextBox Margin="5" VerticalAlignment="Bottom" Watermark="Target Player Name" Width="200" Text="{Binding TargetName}"/>
+            <Button Margin="5" VerticalAlignment="Bottom" Click="OnSendGiftClicked">Send Gift</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

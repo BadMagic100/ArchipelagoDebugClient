@@ -34,7 +34,7 @@
                 <views:DeathLinkView DataContext="{Binding DeathLink}"/>
             </TabItem>
             <TabItem Header="Gifting">
-                Coming soon!
+                <views:GiftingView DataContext="{Binding Gifting}"/>
             </TabItem>
             <TabItem Header="DataStorage">
                 <views:DataStorageView DataContext="{Binding DataStorage}"/>
