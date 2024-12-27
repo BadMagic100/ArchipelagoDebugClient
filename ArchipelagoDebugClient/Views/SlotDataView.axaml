@@ -10,5 +10,6 @@
     <Design.DataContext>
         <data:SlotDataDesignData/>
     </Design.DataContext>
-    <TreeDataGrid CanUserResizeColumns="True" CanUserSortColumns="False" Source="{Binding HierarchySource}"/>
+    <TreeDataGrid CanUserResizeColumns="True" CanUserSortColumns="True" 
+                  Source="{Binding HierarchySource}"/>
 </UserControl>

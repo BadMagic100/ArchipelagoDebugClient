@@ -11,7 +11,7 @@
     <Design.DataContext>
         <data:MessageLogDesignData/>
     </Design.DataContext>
-    <ScrollViewer Name="ScrollArea" VerticalScrollBarVisibility="Visible">
+    <ScrollViewer Name="ScrollArea">
         <ItemsControl ItemsSource="{Binding Messages}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

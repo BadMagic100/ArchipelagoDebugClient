@@ -11,7 +11,7 @@
         <data:DeathLinkDesignData/>
     </Design.DataContext>
     <Grid RowDefinitions="*, Auto">
-        <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Grid.Row="0" Grid.Column="0">
             <ItemsControl ItemsSource="{Binding Messages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

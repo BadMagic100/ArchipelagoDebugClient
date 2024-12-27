@@ -7,9 +7,9 @@
              x:Class="ArchipelagoDebugClient.Views.DataStorageView"
              x:DataType="vm:DataStorageViewModel">
     <Grid RowDefinitions="*, Auto">
-        <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Visible">
-            <TreeDataGrid CanUserResizeColumns="True" CanUserSortColumns="False" Source="{Binding HierarchySource}"/>
-        </ScrollViewer>
+        <TreeDataGrid Grid.Row="0" Grid.Column="0" 
+                      CanUserResizeColumns="True" CanUserSortColumns="True" 
+                      Source="{Binding HierarchySource}"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Margin="10">Key to watch. Use /datastore on the server to list available keys.</Label>
             <TextBox Margin="5" Name="KeyField" Width="300"/>
