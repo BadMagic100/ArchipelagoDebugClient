@@ -19,7 +19,7 @@ public class DataStorageViewModel : ViewModelBase
             Columns =
             {
                 new HierarchicalExpanderColumn<ObjectHierarchy>(
-                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name), x => x.Children),
+                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children),
                 new TextColumn<ObjectHierarchy, string>("Type", x => x.Type),
                 new TextColumn<ObjectHierarchy, object?>("Value", x => x.Value)
             }
