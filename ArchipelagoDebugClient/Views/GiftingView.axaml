@@ -2,13 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:designData="using:ArchipelagoDebugClient.ViewModels.DesignData"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
+             xmlns:data="using:ArchipelagoDebugClient.ViewModels.DesignData"
              xmlns:g="using:Archipelago.Gifting.Net.Traits"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ArchipelagoDebugClient.Views.GiftingView">
+             x:Class="ArchipelagoDebugClient.Views.GiftingView"
+             x:DataType="vm:GiftingViewModel">
     <Design.DataContext>
-        <designData:GiftingDesignData/>
+        <data:GiftingDesignData/>
     </Design.DataContext>
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Visible">
@@ -25,7 +26,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="{Binding $self.ActualHeight}" VerticalAlignment="Bottom" Margin="2.5 0" 
+                            <Button Width="{Binding $self.Height}" VerticalAlignment="Bottom" Margin="2.5 0" 
                                     Command="{Binding $parent[ItemsControl].((vm:GiftingViewModel)DataContext).RemoveTraitCommand}" CommandParameter="{Binding}">
                                 X
                             </Button>
