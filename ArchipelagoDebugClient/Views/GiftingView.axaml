@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:designData="using:ArchipelagoDebugClient.ViewModels.DesignData"
-             xmlns:vm="using:ArchipelagoDebugClient.ViewModels"
+             xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
              xmlns:g="using:Archipelago.Gifting.Net.Traits"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.GiftingView">
@@ -25,7 +25,10 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="{Binding $self.ActualHeight}" VerticalAlignment="Bottom" Margin="2.5 0" Click="OnRemoveTraitClicked">X</Button>
+                            <Button Width="{Binding $self.ActualHeight}" VerticalAlignment="Bottom" Margin="2.5 0" 
+                                    Command="{Binding $parent[ItemsControl].((vm:GiftingViewModel)DataContext).RemoveTraitCommand}" CommandParameter="{Binding}">
+                                X
+                            </Button>
                             <StackPanel Margin="2.5 0" Orientation="Vertical">
                                 <Label>Trait</Label>
                                 <AutoCompleteBox Width="100" ItemsSource="{Binding Source={x:Static vm:GiftingViewModel.AvailableTraits}}" Text="{Binding Trait}"/>
@@ -42,7 +45,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Margin="5" VerticalAlignment="Bottom" Click="OnAddTraitClicked">Add Trait</Button>
+            <Button Margin="5" VerticalAlignment="Bottom" Command="{Binding AddBlankTrait}">Add Trait</Button>
             <TextBox Margin="5" VerticalAlignment="Bottom" Watermark="Target Player Name" Width="200" Text="{Binding TargetName}"/>
             <Button Margin="5" VerticalAlignment="Bottom" Click="OnSendGiftClicked">Send Gift</Button>
         </StackPanel>

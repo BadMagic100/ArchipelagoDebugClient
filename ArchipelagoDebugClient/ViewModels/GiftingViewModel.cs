@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 
 namespace ArchipelagoDebugClient.ViewModels;
 
@@ -78,10 +79,29 @@ public class GiftingViewModel : ViewModelBase
     private ObservableCollection<ObservableTrait> currentTraits = [];
     public ObservableCollection<ObservableTrait> CurrentTraits => currentTraits;
 
+    public ReactiveCommand<Unit, Unit> AddTraitCommand { get; }
+    public ReactiveCommand<ObservableTrait, Unit> RemoveTraitCommand { get; }
+
+    public GiftingViewModel()
+    {
+        AddTraitCommand = ReactiveCommand.Create(AddBlankTrait);
+        RemoveTraitCommand = ReactiveCommand.Create<ObservableTrait>(RemoveTrait);
+    }
+
     private string targetName = "";
     public string TargetName
     {
         get => targetName;
         set => this.RaiseAndSetIfChanged(ref targetName, value);
+    }
+
+    public void AddBlankTrait()
+    {
+        CurrentTraits.Add(new ObservableTrait("", 1, 1));
+    }
+
+    public void RemoveTrait(ObservableTrait trait)
+    {
+        CurrentTraits.Remove(trait);
     }
 }

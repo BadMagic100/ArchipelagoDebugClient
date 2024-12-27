@@ -6,7 +6,6 @@ using Archipelago.MultiClient.Net.Helpers;
 using ArchipelagoDebugClient.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,14 +16,6 @@ public partial class GiftingView : UserControl
     public GiftingView()
     {
         InitializeComponent();
-    }
-
-    private void OnAddTraitClicked(object? sender, RoutedEventArgs e)
-    {
-        if (DataContext is GiftingViewModel vm)
-        {
-            vm.CurrentTraits.Add(new ObservableTrait("", 1, 1));
-        }
     }
 
     private async void OnSendGiftClicked(object? sender, RoutedEventArgs e)
@@ -52,17 +43,6 @@ public partial class GiftingView : UserControl
             {
                 vm.Messages.Add($"Failed to send: Target {vm.TargetName} was not found or cannot accept the gift");
                 return;
-            }
-        }
-    }
-    
-    private void OnRemoveTraitClicked(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Button btn && btn.DataContext is ObservableTrait trait)
-        {
-            if (btn.FindLogicalAncestorOfType<GiftingView>()?.DataContext is GiftingViewModel vm)
-            {
-                vm.CurrentTraits.Remove(trait);
             }
         }
     }
