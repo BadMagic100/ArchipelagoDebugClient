@@ -1,4 +1,6 @@
 ﻿using Archipelago.Gifting.Net.Traits;
+using Archipelago.MultiClient.Net;
+using ArchipelagoDebugClient.Services;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -79,20 +81,22 @@ public class GiftingViewModel : ViewModelBase
     private ObservableCollection<ObservableTrait> currentTraits = [];
     public ObservableCollection<ObservableTrait> CurrentTraits => currentTraits;
 
-    public ReactiveCommand<Unit, Unit> AddTraitCommand { get; }
-    public ReactiveCommand<ObservableTrait, Unit> RemoveTraitCommand { get; }
-
-    public GiftingViewModel()
-    {
-        AddTraitCommand = ReactiveCommand.Create(AddBlankTrait);
-        RemoveTraitCommand = ReactiveCommand.Create<ObservableTrait>(RemoveTrait);
-    }
-
     private string targetName = "";
     public string TargetName
     {
         get => targetName;
         set => this.RaiseAndSetIfChanged(ref targetName, value);
+    }
+
+    public ReactiveCommand<Unit, Unit> AddTraitCommand { get; }
+    public ReactiveCommand<ObservableTrait, Unit> RemoveTraitCommand { get; }
+
+    public GiftingViewModel(SessionProvider sessionProvider) : base(sessionProvider)
+    {
+        AddTraitCommand = ReactiveCommand.Create(AddBlankTrait);
+        RemoveTraitCommand = ReactiveCommand.Create<ObservableTrait>(RemoveTrait);
+
+        sessionProvider.OnSessionChanged += OnSessionChanged;
     }
 
     public void AddBlankTrait()
@@ -103,5 +107,10 @@ public class GiftingViewModel : ViewModelBase
     public void RemoveTrait(ObservableTrait trait)
     {
         CurrentTraits.Remove(trait);
+    }
+
+    private void OnSessionChanged(ArchipelagoSession? obj)
+    {
+        
     }
 }

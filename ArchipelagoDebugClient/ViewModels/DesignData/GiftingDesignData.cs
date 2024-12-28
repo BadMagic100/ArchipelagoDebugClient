@@ -1,9 +1,10 @@
 ﻿using Archipelago.Gifting.Net.Traits;
+using ArchipelagoDebugClient.Services;
 
 namespace ArchipelagoDebugClient.ViewModels.DesignData;
 public class GiftingDesignData : GiftingViewModel
 {
-    public GiftingDesignData()
+    public GiftingDesignData() : base(new SessionProvider())
     {
         Messages.Add("Sent a gift!");
         Messages.Add("Recieved a gift!");

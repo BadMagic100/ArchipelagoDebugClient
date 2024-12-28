@@ -1,11 +1,12 @@
 ﻿using ArchipelagoDebugClient.Models;
+using ArchipelagoDebugClient.Services;
 using Avalonia.Media;
 
 namespace ArchipelagoDebugClient.ViewModels.DesignData;
 
 public class MessageLogDesignData : MessageLogViewModel
 {
-    public MessageLogDesignData() 
+    public MessageLogDesignData() : base(new SessionProvider())
     {
         Messages.Add(new BindableMessage([
             new BindableMessagePart("BadMagic (Team #1) playing Hollow Knight has joined. Client(0.4.0), [].", Colors.White)

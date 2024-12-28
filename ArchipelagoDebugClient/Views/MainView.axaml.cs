@@ -61,6 +61,7 @@ public partial class MainView : UserControl
             {
                 if (DataContext is MainViewModel vm)
                 {
+                    vm.sessionProvider.Session = session;
                     JObject slotData = JObject.FromObject(loginSuccessful.SlotData);
                     vm.SlotData.SlotDataFields.Clear();
                     vm.SlotData.SlotDataFields.AddRange(ObjectHierarchy.GetHierarchyLists(slotData));

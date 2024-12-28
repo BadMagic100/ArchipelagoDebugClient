@@ -1,4 +1,6 @@
-﻿using ArchipelagoDebugClient.Models;
+﻿using Archipelago.MultiClient.Net;
+using ArchipelagoDebugClient.Models;
+using ArchipelagoDebugClient.Services;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using System.Collections.ObjectModel;
@@ -11,7 +13,7 @@ public class SlotDataViewModel : ViewModelBase
 
     public HierarchicalTreeDataGridSource<ObjectHierarchy> HierarchySource { get; }
 
-    public SlotDataViewModel()
+    public SlotDataViewModel(SessionProvider sessionProvider) : base(sessionProvider)
     {
         HierarchySource = new HierarchicalTreeDataGridSource<ObjectHierarchy>(slotDataFields)
         {
@@ -23,5 +25,12 @@ public class SlotDataViewModel : ViewModelBase
                 new TextColumn<ObjectHierarchy, object?>("Value", x => x.Value)
             }
         };
+
+        sessionProvider.OnSessionChanged += OnSessionChanged;
+    }
+
+    private void OnSessionChanged(ArchipelagoSession? obj)
+    {
+        
     }
 }

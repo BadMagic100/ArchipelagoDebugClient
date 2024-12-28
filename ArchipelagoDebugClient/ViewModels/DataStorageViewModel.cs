@@ -1,4 +1,6 @@
-﻿using ArchipelagoDebugClient.Models;
+﻿using Archipelago.MultiClient.Net;
+using ArchipelagoDebugClient.Models;
+using ArchipelagoDebugClient.Services;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using System.Collections.ObjectModel;
@@ -12,7 +14,7 @@ public class DataStorageViewModel : ViewModelBase
 
     public HierarchicalTreeDataGridSource<ObjectHierarchy> HierarchySource { get; }
 
-    public DataStorageViewModel()
+    public DataStorageViewModel(SessionProvider sessionProvider) : base(sessionProvider)
     {
         HierarchySource = new HierarchicalTreeDataGridSource<ObjectHierarchy>(watchedHierarchies)
         {
@@ -24,5 +26,12 @@ public class DataStorageViewModel : ViewModelBase
                 new TextColumn<ObjectHierarchy, object?>("Value", x => x.Value)
             }
         };
+
+        sessionProvider.OnSessionChanged += OnSessionChanged;
+    }
+
+    private void OnSessionChanged(ArchipelagoSession? obj)
+    {
+        
     }
 }
