@@ -1,4 +1,6 @@
-﻿using Archipelago.Gifting.Net.Traits;
+﻿using Archipelago.Gifting.Net.Gifts;
+using Archipelago.Gifting.Net.Service;
+using Archipelago.Gifting.Net.Traits;
 using Archipelago.MultiClient.Net;
 using ArchipelagoDebugClient.Services;
 using ReactiveUI;
@@ -7,6 +9,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace ArchipelagoDebugClient.ViewModels;
 
@@ -75,42 +79,75 @@ public class GiftingViewModel : ViewModelBase
 {
     public static readonly List<string> AvailableTraits = GiftFlag.AllFlags.Order().ToList();
 
-    private ObservableCollection<string> messages = [];
-    public ObservableCollection<string> Messages => messages;
+    public GiftingService? _giftingService;
+    public GiftingService? GiftingService
+    {
+        get => _giftingService;
+        set => this.RaiseAndSetIfChanged(ref _giftingService, value);
+    }
 
-    private ObservableCollection<ObservableTrait> currentTraits = [];
-    public ObservableCollection<ObservableTrait> CurrentTraits => currentTraits;
+    public ObservableCollection<string> Messages { get; } = [];
 
-    private string targetName = "";
+    public ObservableCollection<ObservableTrait> CurrentTraits { get; } = [];
+
+    private string _targetName = "";
     public string TargetName
     {
-        get => targetName;
-        set => this.RaiseAndSetIfChanged(ref targetName, value);
+        get => _targetName;
+        set => this.RaiseAndSetIfChanged(ref _targetName, value);
     }
 
     public ReactiveCommand<Unit, Unit> AddTraitCommand { get; }
     public ReactiveCommand<ObservableTrait, Unit> RemoveTraitCommand { get; }
+    public ReactiveCommand<Unit, Unit> SendGiftCommand { get; }
 
     public GiftingViewModel(SessionProvider sessionProvider) : base(sessionProvider)
     {
         AddTraitCommand = ReactiveCommand.Create(AddBlankTrait);
         RemoveTraitCommand = ReactiveCommand.Create<ObservableTrait>(RemoveTrait);
+        SendGiftCommand = ReactiveCommand.CreateFromTask(() => SendGiftAsync(),
+            this.WhenAnyValue(x => x.GiftingService, x => x.TargetName,
+              (service, target) => service != null && !string.IsNullOrWhiteSpace(target)));
 
         sessionProvider.OnSessionChanged += OnSessionChanged;
     }
 
-    public void AddBlankTrait()
+    private void AddBlankTrait()
     {
         CurrentTraits.Add(new ObservableTrait("", 1, 1));
     }
 
-    public void RemoveTrait(ObservableTrait trait)
+    private void RemoveTrait(ObservableTrait trait)
     {
         CurrentTraits.Remove(trait);
     }
 
-    private void OnSessionChanged(ArchipelagoSession? obj)
+    private async Task SendGiftAsync()
     {
-        
+        List<ObservableTrait> submittedTraits = CurrentTraits.Where(t => !string.IsNullOrWhiteSpace(t.Trait)).ToList();
+        GiftTrait[] converted = submittedTraits.Select(t => t.ToGiftTrait()).ToArray();
+
+        if (await GiftingService!.SendGiftAsync(new GiftItem("Custom Gift", 1, 1), converted,
+            TargetName, sessionProvider.Session!.Players.ActivePlayer.Team))
+        {
+            Messages.Add($"Successfully sent out the gift with traits [{string.Join(", ", submittedTraits)}]");
+        }
+        else
+        {
+            Messages.Add($"Failed to send: Target {TargetName} was not found or cannot accept the gift");
+            return;
+        }
+    }
+
+    private void OnSessionChanged(ArchipelagoSession? session)
+    {
+        if (session != null)
+        {
+            GiftingService = new GiftingService(session);
+        }
+        else
+        {
+            GiftingService = null;
+        }
     }
 }

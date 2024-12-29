@@ -46,9 +46,9 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Margin="5" VerticalAlignment="Bottom" Command="{Binding AddBlankTrait}">Add Trait</Button>
+            <Button Margin="5" VerticalAlignment="Bottom" Command="{Binding AddTraitCommand}">Add Trait</Button>
             <TextBox Margin="5" VerticalAlignment="Bottom" Watermark="Target Player Name" Width="200" Text="{Binding TargetName}"/>
-            <Button Margin="5" VerticalAlignment="Bottom" Click="OnSendGiftClicked">Send Gift</Button>
+            <Button Margin="5" VerticalAlignment="Bottom" Command="{Binding SendGiftCommand}">Send Gift</Button>
         </StackPanel>
     </Grid>
 </UserControl>
