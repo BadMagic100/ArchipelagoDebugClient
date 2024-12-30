@@ -3,19 +3,21 @@ using ArchipelagoDebugClient.Models;
 using ArchipelagoDebugClient.Services;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
+using DynamicData;
+using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 
 namespace ArchipelagoDebugClient.ViewModels;
 public class SlotDataViewModel : ViewModelBase
 {
-    ObservableCollection<ObjectHierarchy> slotDataFields = [];
-    public ObservableCollection<ObjectHierarchy> SlotDataFields => slotDataFields;
+    ObservableCollection<ObjectHierarchy> _slotDataFields = [];
+    public ObservableCollection<ObjectHierarchy> SlotDataFields => _slotDataFields;
 
     public HierarchicalTreeDataGridSource<ObjectHierarchy> HierarchySource { get; }
 
     public SlotDataViewModel(SessionProvider sessionProvider) : base(sessionProvider)
     {
-        HierarchySource = new HierarchicalTreeDataGridSource<ObjectHierarchy>(slotDataFields)
+        HierarchySource = new HierarchicalTreeDataGridSource<ObjectHierarchy>(SlotDataFields)
         {
             Columns = 
             {
@@ -29,8 +31,16 @@ public class SlotDataViewModel : ViewModelBase
         sessionProvider.OnSessionChanged += OnSessionChanged;
     }
 
-    private void OnSessionChanged(ArchipelagoSession? obj)
+    private async void OnSessionChanged(ArchipelagoSession? session)
     {
-        
+        if (session != null)
+        {
+            JObject slotData = await session.DataStorage.GetSlotDataAsync<JObject>();
+            SlotDataFields.AddRange(ObjectHierarchy.GetHierarchyLists(slotData));
+        }
+        else
+        {
+            SlotDataFields.Clear();
+        }
     }
 }

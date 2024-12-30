@@ -5,8 +5,6 @@ using ArchipelagoDebugClient.Models;
 using ArchipelagoDebugClient.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using DynamicData;
-using Newtonsoft.Json.Linq;
 using System.Linq;
 
 namespace ArchipelagoDebugClient.Views;
@@ -56,15 +54,12 @@ public partial class MainView : UserControl
             session = ArchipelagoSessionFactory.CreateSession(AddressField.Text);
             session.MessageLog.OnMessageReceived += OnMessageReceived;
             LoginResult realLogin = session.TryConnectAndLogin(game, SlotField.Text, ItemsHandlingFlags.NoItems,
-                password: password, requestSlotData: true);
+                password: password, requestSlotData: false);
             if (realLogin is LoginSuccessful loginSuccessful)
             {
                 if (DataContext is MainViewModel vm)
                 {
                     vm.sessionProvider.Session = session;
-                    JObject slotData = JObject.FromObject(loginSuccessful.SlotData);
-                    vm.SlotData.SlotDataFields.Clear();
-                    vm.SlotData.SlotDataFields.AddRange(ObjectHierarchy.GetHierarchyLists(slotData));
                 }
                 DialogHost.IsOpen = false;
             }
