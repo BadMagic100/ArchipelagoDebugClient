@@ -21,11 +21,12 @@
             </ItemsControl>
         </ScrollViewer>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <CheckBox Checked="OnDeathlinkEnabled" Unchecked="OnDeathlinkDisabled" Name="EnableCheckbox" Margin="5">Enable DeathLink</CheckBox>
+            <CheckBox IsChecked="{Binding DeathLinkEnabled}" Name="EnableCheckbox" Margin="5">Enable DeathLink</CheckBox>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBox Margin="5" IsEnabled="{Binding #EnableCheckbox.IsChecked}" Name="ReasonField" Width="200" Watermark="Reason for dying here"/>
-            <Button Margin="5" IsEnabled="{Binding #EnableCheckbox.IsChecked}" Click="OnDeathlinkSendClicked">Send DeathLink</Button>
+            <TextBox Margin="5" IsEnabled="{Binding #EnableCheckbox.IsChecked}" Width="200"
+                     Text="{Binding Cause}" Watermark="Reason for dying here"/>
+            <Button Margin="5" Command="{Binding SendDeathLinkCommand}">Send DeathLink</Button>
         </StackPanel>
     </Grid>
 </UserControl>

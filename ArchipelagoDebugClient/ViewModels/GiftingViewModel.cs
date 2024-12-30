@@ -105,7 +105,7 @@ public class GiftingViewModel : ViewModelBase
     {
         AddTraitCommand = ReactiveCommand.Create(AddBlankTrait);
         RemoveTraitCommand = ReactiveCommand.Create<ObservableTrait>(RemoveTrait);
-        SendGiftCommand = ReactiveCommand.CreateFromTask(() => SendGiftAsync(),
+        SendGiftCommand = ReactiveCommand.CreateFromTask(SendGiftAsync,
             this.WhenAnyValue(x => x.GiftingService, x => x.TargetName,
               (service, target) => service != null && !string.IsNullOrWhiteSpace(target)));
 
