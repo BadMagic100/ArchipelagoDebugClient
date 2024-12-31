@@ -12,8 +12,8 @@
                       Source="{Binding HierarchySource}"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Margin="10">Key to watch. Use /datastore on the server to list available keys.</Label>
-            <TextBox Margin="5" Name="KeyField" Width="300"/>
-            <Button Margin="5" Click="OnWatchClicked">Watch Key</Button>
+            <TextBox Margin="5" Width="300" Text="{Binding Key}"/>
+            <Button Margin="5" Command="{Binding WatchKeyCommand}">Watch Key</Button>
         </StackPanel>
     </Grid>
 </UserControl>
