@@ -42,10 +42,8 @@ public class DeathLinkViewModel : ViewModelBase
             this.RaiseAndSetIfChanged(ref _deathLinkEnabled, value);
         }
     }
-    
-    private ObservableCollection<string> _messages = [];
 
-    public ObservableCollection<string> Messages => _messages;
+    public ObservableCollection<string> Messages { get; } = [];
 
     public ReactiveCommand<Unit, Unit> SendDeathLinkCommand { get; }
 

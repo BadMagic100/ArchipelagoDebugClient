@@ -10,8 +10,7 @@ using System.Collections.ObjectModel;
 namespace ArchipelagoDebugClient.ViewModels;
 public class SlotDataViewModel : ViewModelBase
 {
-    ObservableCollection<ObjectHierarchy> _slotDataFields = [];
-    public ObservableCollection<ObjectHierarchy> SlotDataFields => _slotDataFields;
+    public ObservableCollection<ObjectHierarchy> SlotDataFields { get; } = [];
 
     public HierarchicalTreeDataGridSource<ObjectHierarchy> HierarchySource { get; }
 
