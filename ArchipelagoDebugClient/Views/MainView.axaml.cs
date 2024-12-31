@@ -1,10 +1,7 @@
 ﻿using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
-using Archipelago.MultiClient.Net.MessageLog.Messages;
-using ArchipelagoDebugClient.Models;
 using ArchipelagoDebugClient.ViewModels;
 using Avalonia.Controls;
-using Avalonia.Threading;
 using System.Linq;
 
 namespace ArchipelagoDebugClient.Views;
@@ -52,7 +49,6 @@ public partial class MainView : UserControl
             }
 
             session = ArchipelagoSessionFactory.CreateSession(AddressField.Text);
-            session.MessageLog.OnMessageReceived += OnMessageReceived;
             LoginResult realLogin = session.TryConnectAndLogin(game, SlotField.Text, ItemsHandlingFlags.NoItems,
                 password: password, requestSlotData: false);
             if (realLogin is LoginSuccessful loginSuccessful)
@@ -65,7 +61,6 @@ public partial class MainView : UserControl
             }
             else if (realLogin is LoginFailure loginFailure)
             {
-                session.MessageLog.OnMessageReceived -= OnMessageReceived;
                 session = null;
                 ShowErrorForFailedLogin(loginFailure);
             }
@@ -83,11 +78,6 @@ public partial class MainView : UserControl
         {
             ShowErrorMessage("Unexpected login result");
         }
-    }
-
-    private void OnMessageReceived(LogMessage message)
-    {
-        Dispatcher.UIThread.Invoke(() => (DataContext as MainViewModel)?.MessageLog.Messages.Add(new BindableMessage(message)));
     }
 
     private void ShowErrorForFailedLogin(LoginFailure failure)
