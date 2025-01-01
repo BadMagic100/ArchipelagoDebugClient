@@ -5,23 +5,30 @@
              xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              xmlns:views="clr-namespace:ArchipelagoDebugClient.Views"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
+             xmlns:data="using:ArchipelagoDebugClient.ViewModels.DesignData"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.MainView"
              x:DataType="vm:MainViewModel">
-    <dha:DialogHost Name="DialogHost" IsOpen="True" CloseOnClickAway="False">
+    <Design.DataContext>
+        <data:MainDesignData/>
+    </Design.DataContext>
+    <dha:DialogHost IsOpen="{Binding !HasSession}" CloseOnClickAway="False">
         <dha:DialogHost.DialogContent>
             <Grid Margin="20" ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto" Width="300">
                 <Label Grid.Row="0" Grid.Column="0" Margin="10">Server address</Label>
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="0 5" Name="AddressField"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="0 5" Text="{Binding Address}"/>
                 <Label Grid.Row="1" Grid.Column="0" Margin="10">Slot name</Label>
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="0 5" Name="SlotField"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="0 5" Text="{Binding Slot}"/>
                 <Label Grid.Row="2" Grid.Column="0" Margin="10">Password</Label>
-                <TextBox Grid.Row="2" Grid.Column="1" PasswordChar="&#x25CF;" Margin="0 5" Name="PasswordField"/>
-                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Foreground="Red" Name="ErrorText"
-                           TextWrapping="Wrap" Margin="10" IsVisible="False">
+                <TextBox Grid.Row="2" Grid.Column="1" PasswordChar="&#x25CF;" Margin="0 5" Text="{Binding Password}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Foreground="Red" Text="{Binding ErrorMessage}"
+                           TextWrapping="Wrap" Margin="10" IsVisible="{Binding IsErrorVisible}">
                     asdfasdfasdfadsf
                 </TextBlock>
-                <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="0 5" Padding="5" Click="OnConnectClicked">Connect</Button>
+                <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" Margin="0 5" Padding="5" 
+                        Command="{Binding ConnectCommand}">
+                    Connect
+                </Button>
             </Grid>
         </dha:DialogHost.DialogContent>
 
