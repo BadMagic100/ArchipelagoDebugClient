@@ -22,6 +22,10 @@ public class MessageLogViewModel : ViewModelBase
         {
             session.MessageLog.OnMessageReceived += OnMessageRecieved;
         }
+        else
+        {
+            Messages.Clear();
+        }
     }
 
     private void OnMessageRecieved(LogMessage message)

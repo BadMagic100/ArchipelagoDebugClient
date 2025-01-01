@@ -91,6 +91,7 @@ public class DeathLinkViewModel : ViewModelBase
                 DeathLinkService.OnDeathLinkReceived -= OnDeathLinkRecieved;
             }
             DeathLinkService = null;
+            Messages.Clear();
         }
     }
 }

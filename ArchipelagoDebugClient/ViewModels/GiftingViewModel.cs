@@ -148,6 +148,7 @@ public class GiftingViewModel : ViewModelBase
         else
         {
             GiftingService = null;
+            Messages.Clear();
         }
     }
 }

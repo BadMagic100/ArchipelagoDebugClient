@@ -1,4 +1,5 @@
-﻿using Archipelago.MultiClient.Net.Helpers;
+﻿using Archipelago.MultiClient.Net;
+using Archipelago.MultiClient.Net.Helpers;
 using ArchipelagoDebugClient.Models;
 using ArchipelagoDebugClient.Services;
 using Avalonia.Controls;
@@ -46,6 +47,8 @@ public class DataStorageViewModel : ViewModelBase
                 (session, key) => session != null && !string.IsNullOrWhiteSpace(key)
             )
         );
+
+        sessionProvider.OnSessionChanged += OnSessionChanged;
     }
 
     private async Task WatchCurrentKey()
@@ -82,5 +85,13 @@ public class DataStorageViewModel : ViewModelBase
                 WatchedHierarchies.Insert(index, next);
             }
         });
+    }
+
+    private void OnSessionChanged(ArchipelagoSession? session)
+    {
+        if (session == null)
+        {
+            WatchedHierarchies.Clear();
+        }
     }
 }
