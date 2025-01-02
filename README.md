@@ -27,7 +27,8 @@ out Avalonia for something and have a (perhaps unfounded) distaste for Kivy.
 
 This is super fair concern! However, it is not a blocker. The debug client does 2 main things to help in this area:
 
-1. The client will refuse to connect on its privileged connection if there are more than 2 players in the multiworld
+1. The client will refuse to connect on its privileged connection if there are more than 2 players in the multiworld,
+   or if the race mode flag is set in data storage.
 2. It can't send goal or any commands, preventing mass collect/release from ruining everyone's day.
 
 I believe these measures are sufficient, as anyone who has the coding ability to change these contstraints to cause
