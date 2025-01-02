@@ -21,7 +21,7 @@
         </TreeDataGrid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Margin="5" Command="{Binding SelectAllCommand}">Select All</Button>
-            <Button Margin="5" Command="{Binding SendCommand}">Send</Button>
+            <Button Margin="5" Command="{Binding SendCommand}">Send Selected</Button>
         </StackPanel>
     </Grid>
 </UserControl>
