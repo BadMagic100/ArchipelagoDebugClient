@@ -13,6 +13,7 @@ namespace ArchipelagoDebugClient.ViewModels;
 public class MainViewModel : ViewModelBase
 {
     public MessageLogViewModel MessageLog { get; }
+    public LocationsViewModel Locations { get; }
     public DeathLinkViewModel DeathLink { get; }
     public GiftingViewModel Gifting { get; }
     public DataStorageViewModel DataStorage { get; }
@@ -54,12 +55,14 @@ public class MainViewModel : ViewModelBase
     public MainViewModel(
         SessionProvider sessionProvider,
         MessageLogViewModel messageLog,
+        LocationsViewModel locations,
         DeathLinkViewModel deathLink,
         GiftingViewModel gifting,
         DataStorageViewModel dataStorage,
         SlotDataViewModel slotData) : base(sessionProvider)
-    {
+    { 
         MessageLog = messageLog;
+        Locations = locations;
         DeathLink = deathLink;
         Gifting = gifting;
         DataStorage = dataStorage;

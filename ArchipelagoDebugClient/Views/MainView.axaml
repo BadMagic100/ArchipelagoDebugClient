@@ -37,7 +37,7 @@
                 <views:LogView DataContext="{Binding MessageLog}"/>
             </TabItem>
             <TabItem Header="Locations">
-                Coming soon!  
+                <views:LocationsView DataContext="{Binding Locations}"/>
             </TabItem>
             <TabItem Header="Deathlink">
                 <views:DeathLinkView DataContext="{Binding DeathLink}"/>

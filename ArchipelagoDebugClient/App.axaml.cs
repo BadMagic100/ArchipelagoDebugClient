@@ -21,6 +21,7 @@ public partial class App : Application
         ServiceCollection services = new();
         services.AddSingleton<SessionProvider>();
         services.AddTransient<MessageLogViewModel>();
+        services.AddTransient<LocationsViewModel>();
         services.AddTransient<DeathLinkViewModel>();
         services.AddTransient<GiftingViewModel>();
         services.AddTransient<DataStorageViewModel>();

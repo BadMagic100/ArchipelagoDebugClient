@@ -7,6 +7,7 @@ public class MainDesignData : MainViewModel
     public MainDesignData() 
         : base(new SessionProvider(), 
             new MessageLogDesignData(),
+            new LocationsDesignData(),
             new DeathLinkDesignData(),
             new GiftingDesignData(), 
             new DataStorageViewModel(new SessionProvider()), 
