@@ -7,7 +7,7 @@ A cross-platform debugging client for use by Archipelago developers, written in 
 Archipelago is all about sending and receiving various data over the network. Of course, this means
 that it is useful to have something on the other side of the network which can send and receive data
 to help test during the development of your own game client. However, for a long time, no publicly
-available debug client existed, primarily because: 
+available debug client existed, with the most commonly stated reasons being: 
 
 1. Every developer should be capable of implementing their own client if they want to accomplish anything, and
 2. If a debug client exists, it will certainly be used for nefarious purposes, e.g. to ruin public games.
