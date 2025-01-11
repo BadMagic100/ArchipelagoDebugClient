@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
              xmlns:data="using:ArchipelagoDebugClient.ViewModels.DesignData"
+             xmlns:behaviors="using:ArchipelagoDebugClient.Behaviors"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.DeathLinkView"
              x:DataType="vm:DeathLinkViewModel">
@@ -12,7 +13,15 @@
     </Design.DataContext>
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer Grid.Row="0" Grid.Column="0">
+            <Interaction.Behaviors>
+                <behaviors:LogScrollBehavior/>
+            </Interaction.Behaviors>
             <ItemsControl ItemsSource="{Binding Messages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock TextWrapping="Wrap" Margin="2.5" Text="{Binding}"/>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
              xmlns:data="using:ArchipelagoDebugClient.ViewModels.DesignData"
+             xmlns:behaviors="using:ArchipelagoDebugClient.Behaviors"
              xmlns:g="using:Archipelago.Gifting.Net.Traits"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.GiftingView"
@@ -13,7 +14,15 @@
     </Design.DataContext>
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+            <Interaction.Behaviors>
+                <behaviors:LogScrollBehavior/>            
+            </Interaction.Behaviors>
             <ItemsControl ItemsSource="{Binding Messages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock TextWrapping="Wrap" Margin="2.5" Text="{Binding}"/>

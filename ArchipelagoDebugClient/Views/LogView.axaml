@@ -12,7 +12,15 @@
         <data:MessageLogDesignData/>
     </Design.DataContext>
     <ScrollViewer Name="ScrollArea">
+        <Interaction.Behaviors>
+            <behaviors:LogScrollBehavior/>
+        </Interaction.Behaviors>
         <ItemsControl ItemsSource="{Binding Messages}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>                
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock TextWrapping="Wrap" Margin="2.5" Inlines="{Binding Converter={StaticResource LogMessageConverter}}"/>
