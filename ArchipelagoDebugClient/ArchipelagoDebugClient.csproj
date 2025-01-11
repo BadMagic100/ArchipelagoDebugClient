@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="Resources\Resources.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Archipelago.Gifting.Net" Version="0.3.5" />
     <PackageReference Include="Archipelago.MultiClient.Net" Version="6.5.0" />
     <PackageReference Include="Archipelago.MultiClient.Net.Analyzers" Version="1.3.0">
@@ -26,6 +30,10 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0" />
     <PackageReference Include="DialogHost.Avalonia" Version="0.8.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="DynamicData" Version="9.0.4"/>
+    <PackageReference Include="DynamicData" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Behaviors\" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 ﻿using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using ArchipelagoDebugClient.Services;
-using ArchipelagoDebugClient.Views;
 using Avalonia.Threading;
 using ReactiveUI;
 using System.Collections.ObjectModel;
@@ -59,7 +58,7 @@ public class DeathLinkViewModel : ViewModelBase
     private void SendDeathLink()
     {
         string? cause = string.IsNullOrEmpty(Cause) ? null : Cause;
-        DeathLink deathLink = new(MainView.session!.Players.ActivePlayer.Alias, cause);
+        DeathLink deathLink = new(Session!.Players.ActivePlayer.Alias, cause);
         Messages.Add($"[SEND] {GetMessage(deathLink)}");
         DeathLinkService!.SendDeathLink(deathLink);
     }

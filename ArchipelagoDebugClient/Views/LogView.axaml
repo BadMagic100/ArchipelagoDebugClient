@@ -15,7 +15,7 @@
         <ItemsControl ItemsSource="{Binding Messages}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock TextWrapping="Wrap" Margin="2.5" behaviors:ArchipelagoLogMessageBehavior.Message="{Binding}"/>
+                    <TextBlock TextWrapping="Wrap" Margin="2.5" Inlines="{Binding Converter={StaticResource LogMessageConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
