@@ -1,6 +1,8 @@
-﻿using Archipelago.Gifting.Net.Gifts;
-using Archipelago.Gifting.Net.Service;
+﻿using Archipelago.Gifting.Net.Service;
+using Archipelago.Gifting.Net.Service.Result;
 using Archipelago.Gifting.Net.Traits;
+using Archipelago.Gifting.Net.Versioning.Gifts;
+using Archipelago.Gifting.Net.Versioning.Gifts.Current;
 using Archipelago.MultiClient.Net;
 using ArchipelagoDebugClient.Services;
 using ReactiveUI;
@@ -48,7 +50,7 @@ public class ObservableTrait : ReactiveObject, IEquatable<ObservableTrait?>
 
     public GiftTrait ToGiftTrait()
     {
-        return new GiftTrait(trait, duration, quality);
+        return new GiftTrait(trait, quality, duration);
     }
 
     public override string ToString()
@@ -127,14 +129,19 @@ public class GiftingViewModel : ViewModelBase
         List<ObservableTrait> submittedTraits = CurrentTraits.Where(t => !string.IsNullOrWhiteSpace(t.Trait)).ToList();
         GiftTrait[] converted = submittedTraits.Select(t => t.ToGiftTrait()).ToArray();
 
-        if (await GiftingService!.SendGiftAsync(new GiftItem("Custom Gift", 1, 1), converted,
-            TargetName, sessionProvider.Session!.Players.ActivePlayer.Team))
+        GiftingResult result = await GiftingService!.SendGiftAsync(new GiftItem("Custom Gift", 1, 1), converted, TargetName);
+        if (result is SuccessfulGifting success)
         {
-            Messages.Add($"Successfully sent out the gift with traits [{string.Join(", ", submittedTraits)}]");
+            Messages.Add($"Successfully sent out gift {success.GiftId} with traits [{string.Join(", ", submittedTraits)}]");
+        }
+        else if (result is FailedGifting failure)
+        {
+            Messages.Add($"Failed to send: {failure.ErrorMessage}");
+            return;
         }
         else
         {
-            Messages.Add($"Failed to send: Target {TargetName} was not found or cannot accept the gift");
+            Messages.Add($"Failed to send: unexpected failure sending gift");
             return;
         }
     }
