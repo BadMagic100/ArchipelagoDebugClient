@@ -45,6 +45,6 @@ jobs:
         with:
           path: artifacts
       - name: Zip artifacts
-        run: for i in artifacts/*/; do zip -r "artifacts/zipped/${i%/}.zip" "$i"; done
+        run: mkdir artifacts/zipped; for i in artifacts/*/; do zip -r "${i%/}.zip" "$i"; done
       - name: Log directory structure
         run: ls -R artifacts/zipped
