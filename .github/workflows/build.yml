@@ -44,5 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+      - name: Zip artifacts
+        run: for i in artifacts/*/; do zip -r "artifacts/zipped/${i%/}.zip" "$i"; done
       - name: Log directory structure
-        run: ls -R artifacts
+        run: ls -R artifacts/zipped
