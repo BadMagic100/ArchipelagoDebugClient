@@ -23,6 +23,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
     - name: Build
       run: dotnet build -c "$BUILD_CONFIGURATION"
     - name: Publish
@@ -32,3 +34,15 @@ jobs:
       with:
         name: ${{ format('ArchipelagoDebugClient-{0}', matrix.os) }}
         path: ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish', env.BUILD_CONFIGURATION, matrix.os) }}
+  release:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    # if: env.BUILD_CONFIGURATION == 'Release'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Log directory structure
+        run: ls -R artifacts
