@@ -38,7 +38,7 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-    # if: env.BUILD_CONFIGURATION == 'Release'
+    if: env.BUILD_CONFIGURATION == 'Release'
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -46,5 +46,10 @@ jobs:
           path: artifacts
       - name: Zip artifacts
         run: for i in artifacts/*/; do zip -r "${i%/}.zip" "$i"; done
-      - name: Log directory structure
-        run: ls -R artifacts
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: artifacts/*.zip
