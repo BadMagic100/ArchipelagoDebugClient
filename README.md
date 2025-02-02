@@ -2,6 +2,13 @@
 
 A cross-platform debugging client for use by Archipelago developers, written in C# and Avalonia.
 
+## Downloading
+
+The latest stable release is downloadable from the [releases pages](https://github.com/BadMagic100/ArchipelagoDebugClient/releases/).
+
+If desired, [nightly builds](https://nightly.link/BadMagic100/ArchipelagoDebugClient/workflows/build/master?preview) are also available,
+though practically speaking I expect most changes to be released properly the same day I'm working on them.
+
 ## Why?
 
 Archipelago is all about sending and receiving various data over the network. Of course, this means
