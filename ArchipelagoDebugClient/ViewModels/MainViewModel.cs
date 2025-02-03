@@ -141,7 +141,7 @@ public class MainViewModel : ViewModelBase
             return new LoginFailure($"Connection failed: {e.Message}");
         }
         return await session.LoginAsync(game, name, ItemsHandlingFlags.NoItems, 
-            tags: tags, password: password, requestSlotData: false);
+            new Version(0, 5, 0), tags: tags, password: password, requestSlotData: false);
     }
 
     private string BuildErrorForFailedLogin(LoginFailure failure)
