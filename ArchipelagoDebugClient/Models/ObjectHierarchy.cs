@@ -9,20 +9,32 @@ public record ObjectHierarchy
     public string Name { get; }
     public string Type { get; }
     public object? Value { get; }
+    public bool IsRoot { get; }
+    public bool Expanded { get; set; }
     public IReadOnlyList<ObjectHierarchy> Children { get; }
 
-    public ObjectHierarchy(string name, JToken token)
+    public ObjectHierarchy(string name, JToken token, bool root = true)
     {
         Name = name;
+        IsRoot = root;
+        Expanded = false;
         if (token.Type == JTokenType.Array)
         {
             Type = "Array";
-            Children = token.Children().Select((t, i) => new ObjectHierarchy(i.ToString(), t)).ToList();
+            Children = token.Children().Select((t, i) => new ObjectHierarchy(i.ToString(), t, false)).ToList();
+            if (Children.Count == 0)
+            {
+                Value = "[]";
+            }
         }
         else if (token.Type == JTokenType.Object)
         {
             Type = "Object";
-            Children = token.Children<JProperty>().Select(t => new ObjectHierarchy(t.Name, t.Value)).ToList();
+            Children = token.Children<JProperty>().Select(t => new ObjectHierarchy(t.Name, t.Value, false)).ToList();
+            if (Children.Count == 0)
+            {
+                Value = "{}";
+            } 
         }
         else
         {
@@ -32,19 +44,18 @@ public record ObjectHierarchy
         }
     }
 
-    public ObjectHierarchy(string name, string type, object? value)
+    public void CopyExpandedState(ObjectHierarchy orig)
     {
-        Name = name;
-        Type = type;
-        Value = value;
-        Children = [];
-    }
-
-    public ObjectHierarchy(string name, string type, IReadOnlyList<ObjectHierarchy> children)
-    {
-        Name= name;
-        Type = type;
-        Children = children;
+        Expanded = orig.Expanded;
+        foreach (ObjectHierarchy child in orig.Children)
+        {
+            if (child.Expanded)
+            {
+                // that child is expanded, try to find a matching child in this one and propagate its expanded state also
+                ObjectHierarchy? myChild = Children.FirstOrDefault(c => c.Name == child.Name);
+                myChild?.CopyExpandedState(child);
+            }
+        }
     }
 
     public static IEnumerable<ObjectHierarchy> GetHierarchyLists(JObject obj)

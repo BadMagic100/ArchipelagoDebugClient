@@ -36,7 +36,8 @@ public class DataStorageViewModel : ViewModelBase
             Columns =
             {
                 new HierarchicalExpanderColumn<ObjectHierarchy>(
-                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children),
+                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children, 
+                        isExpandedSelector: x => x.Expanded),
                 new TextColumn<ObjectHierarchy, string>("Type", x => x.Type),
                 new TextColumn<ObjectHierarchy, object?>("Value", x => x.Value)
             }
@@ -80,6 +81,7 @@ public class DataStorageViewModel : ViewModelBase
             }
             else
             {
+                next.CopyExpandedState(current);
                 int index = WatchedHierarchies.IndexOf(current);
                 WatchedHierarchies.RemoveAt(index);
                 WatchedHierarchies.Insert(index, next);
