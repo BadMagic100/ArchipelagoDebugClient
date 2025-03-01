@@ -5,6 +5,7 @@ using ArchipelagoDebugClient.Services;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Threading;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using System.Collections.ObjectModel;
@@ -27,6 +28,44 @@ public class DataStorageViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _key, value);
     }
 
+    private string _editingKey = "";
+    public string EditingKey
+    {
+        get => _editingKey;
+        set => this.RaiseAndSetIfChanged(ref _editingKey, value);
+    }
+
+    private string _editingValue = "";
+    public string EditingValue
+    {
+        get => _editingValue;
+        set => this.RaiseAndSetIfChanged(ref _editingValue, value);
+    }
+
+    private bool _isEditing = false;
+    public bool IsEditing
+    {
+        get => _isEditing;
+        set => this.RaiseAndSetIfChanged(ref _isEditing, value);
+    }
+
+    private string _editorErrorMessage = "";
+    public string EditorErrorMessage
+    {
+        get => _editorErrorMessage;
+        set => this.RaiseAndSetIfChanged(ref _editorErrorMessage, value);
+    }
+
+    private bool _isEditorErrorVisible = false;
+    public bool IsEditorErrorVisible
+    {
+        get => _isEditorErrorVisible;
+        set => this.RaiseAndSetIfChanged(ref _isEditorErrorVisible, value);
+    }
+
+    public ReactiveCommand<ObjectHierarchy, Unit> OpenEditorCommand { get; }
+    public ReactiveCommand<Unit, Unit> CloseEditorCommand { get; }
+    public ReactiveCommand<Unit, Unit> SubmitEditCommand { get; }
     public ReactiveCommand<Unit, Unit> WatchKeyCommand { get; }
 
     public DataStorageViewModel(SessionProvider sessionProvider) : base(sessionProvider)
@@ -39,10 +78,13 @@ public class DataStorageViewModel : ViewModelBase
                     new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children, 
                         isExpandedSelector: x => x.Expanded),
                 new TextColumn<ObjectHierarchy, string>("Type", x => x.Type),
-                new TextColumn<ObjectHierarchy, object?>("Value", x => x.Value)
+                new TemplateColumn<ObjectHierarchy>("Value", "EditorCell")
             }
         };
 
+        OpenEditorCommand = ReactiveCommand.CreateFromTask<ObjectHierarchy>(OpenEditor, this.WhenAnyValue(x => x.IsEditing, e => !e));
+        CloseEditorCommand = ReactiveCommand.Create(CloseEditor, this.WhenAnyValue(x => x.IsEditing, e => e == true));
+        SubmitEditCommand = ReactiveCommand.Create(SubmitEdit, this.WhenAnyValue(x => x.IsEditing, e => e == true));
         WatchKeyCommand = ReactiveCommand.CreateFromTask(WatchCurrentKey,
             this.WhenAnyValue(x => x.Session, x => x.Key,
                 (session, key) => session != null && !string.IsNullOrWhiteSpace(key)
@@ -50,6 +92,35 @@ public class DataStorageViewModel : ViewModelBase
         );
 
         sessionProvider.OnSessionChanged += OnSessionChanged;
+    }
+
+    private async Task OpenEditor(ObjectHierarchy hierachy)
+    {
+        JToken token = await Session!.DataStorage[hierachy.Name].GetAsync<JToken>();
+        EditingKey = hierachy.Name;
+        EditingValue = token.ToString(Formatting.Indented);
+        IsEditing = true;
+    }
+
+    private void CloseEditor()
+    {
+        IsEditing = false;
+        IsEditorErrorVisible = false;
+    }
+
+    private void SubmitEdit()
+    {
+        try
+        {
+            JToken? obj = JsonConvert.DeserializeObject<JToken>(EditingValue);
+            Session!.DataStorage[EditingKey] = obj;
+            CloseEditor();
+        }
+        catch
+        {
+            EditorErrorMessage = "Invalid JSON";
+            IsEditorErrorVisible = true;
+        }
     }
 
     private async Task WatchCurrentKey()

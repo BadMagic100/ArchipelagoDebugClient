@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\DataStorageView.axaml~RF3c91ebce.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AvaloniaResource Include="Resources\Resources.axaml" />
   </ItemGroup>
 
@@ -26,7 +30,7 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.1.1" />
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0.7"/>
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0.7" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="DialogHost.Avalonia" Version="0.8.1" />

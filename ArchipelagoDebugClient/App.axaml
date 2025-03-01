@@ -8,6 +8,7 @@
         <FluentTheme />
         <dha:DialogHostStyles />
         <StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml"/>
+        <StyleInclude Source="avares://ArchipelagoDebugClient/Styles/IconButtons.axaml"/>
     </Application.Styles>
 
     <Application.Resources>

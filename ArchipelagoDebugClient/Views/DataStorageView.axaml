@@ -2,18 +2,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:avedit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
+             xmlns:m="clr-namespace:ArchipelagoDebugClient.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.DataStorageView"
              x:DataType="vm:DataStorageViewModel">
-    <Grid RowDefinitions="*, Auto">
-        <TreeDataGrid Grid.Row="0" Grid.Column="0" 
-                      CanUserResizeColumns="True" CanUserSortColumns="True" 
-                      Source="{Binding HierarchySource}"/>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label Margin="10">Key to watch. Use /datastore on the server to list available keys.</Label>
-            <TextBox Margin="5" Width="300" Text="{Binding Key}"/>
-            <Button Margin="5" Command="{Binding WatchKeyCommand}">Watch Key</Button>
-        </StackPanel>
-    </Grid>
+    <dha:DialogHost IsOpen="{Binding IsEditing}" CloseOnClickAway="False">
+        <dha:DialogHost.DialogContent>
+            <Grid Margin="20" Width="400" RowDefinitions="Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0 5" HorizontalAlignment="Left">
+                    <TextBlock.Inlines>
+                        <Run Text="Now editing: "/>
+                        <Run Text="{Binding EditingKey}"/>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="0" Margin="0 5"
+                         AcceptsReturn="True" AcceptsTab="True"
+                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace" 
+                         Text="{Binding EditingValue}"
+                         Height="200"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Foreground="Red" Text="{Binding EditorErrorMessage}"
+                           TextWrapping="Wrap" Margin="10" IsVisible="{Binding IsEditorErrorVisible}">
+                    asdfasdfasdfadsf
+                </TextBlock>
+                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0 5" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Margin="0 0 5 0" Command="{Binding CloseEditorCommand}">Cancel</Button>
+                    <Button Command="{Binding SubmitEditCommand}">Submit</Button>
+                </StackPanel>
+            </Grid>
+        </dha:DialogHost.DialogContent>
+        
+        <Grid RowDefinitions="*, Auto">
+            <TreeDataGrid Grid.Row="0" Grid.Column="0"
+                          CanUserResizeColumns="True" CanUserSortColumns="True"
+                          Source="{Binding HierarchySource}">
+                <TreeDataGrid.Resources>
+                    <DataTemplate x:Key="EditorCell" x:DataType="m:ObjectHierarchy">
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Value}"/>
+                            <Button Classes="icon edit" HorizontalAlignment="Right" Width="20" Height="20" Padding="2" 
+                                    IsVisible="{Binding IsRoot}"
+                                    Command="{Binding $parent[TreeDataGrid].((vm:DataStorageViewModel)DataContext).OpenEditorCommand}"
+                                    CommandParameter="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </TreeDataGrid.Resources>
+            </TreeDataGrid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="10">Key to watch. Use /datastore on the server to list available keys.</Label>
+                <TextBox Margin="5" Width="300" Text="{Binding Key}"/>
+                <Button Margin="5" Command="{Binding WatchKeyCommand}">Watch Key</Button>
+            </StackPanel>
+        </Grid>
+    </dha:DialogHost>
 </UserControl>

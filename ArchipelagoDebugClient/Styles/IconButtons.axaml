@@ -1,0 +1,49 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Button Classes="icon edit" Width="50" Height="50"/>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <ResourceDictionary>
+            <StreamGeometry x:Key="icon_edit_regular">M27.3138 4.68622C28.8759 6.24832 28.8759 8.78098 27.3138 10.3431L12.5409 25.116C11.9001 25.7568 11.0972 26.2114 10.218 26.4312L5.63602 27.5767C4.90364 27.7598 4.24025 27.0964 4.42335 26.364L5.56885 21.782C5.78864 20.9028 6.24323 20.0999 6.88402 19.4591L21.6569 4.68622C23.219 3.12412 25.7517 3.12412 27.3138 4.68622ZM20.2426 8.92865L8.29824 20.8734C7.91376 21.2578 7.641 21.7396 7.50913 22.2671L6.76786 25.2322L9.73295 24.4909C10.2604 24.359 10.7422 24.0863 11.1267 23.7018L23.0706 11.7566L20.2426 8.92865ZM23.0712 6.10043L21.6566 7.51465L24.4846 10.3426L25.8996 8.92886C26.6806 8.14781 26.6806 6.88148 25.8996 6.10043C25.1185 5.31939 23.8522 5.31939 23.0712 6.10043Z</StreamGeometry>
+            <StreamGeometry x:Key="icon_checkmark_regular">M4.03033009,13.4696699 C3.73743687,13.1767767 3.26256313,13.1767767 2.96966991,13.4696699 C2.6767767,13.7625631 2.6767767,14.2374369 2.96966991,14.5303301 L9.96966991,21.5303301 C10.2625631,21.8232233 10.7374369,21.8232233 11.0303301,21.5303301 L25.0303301,7.53033009 C25.3232233,7.23743687 25.3232233,6.76256313 25.0303301,6.46966991 C24.7374369,6.1767767 24.2625631,6.1767767 23.9696699,6.46966991 L10.5,19.9393398 L4.03033009,13.4696699 Z</StreamGeometry>
+            <StreamGeometry x:Key="icon_dismiss_regular">M3.52499419,3.71761187 L3.61611652,3.61611652 C4.0717282,3.16050485 4.79154862,3.13013074 5.28238813,3.52499419 L5.38388348,3.61611652 L14,12.233 L22.6161165,3.61611652 C23.1042719,3.12796116 23.8957281,3.12796116 24.3838835,3.61611652 C24.8720388,4.10427189 24.8720388,4.89572811 24.3838835,5.38388348 L15.767,14 L24.3838835,22.6161165 C24.8394952,23.0717282 24.8698693,23.7915486 24.4750058,24.2823881 L24.3838835,24.3838835 C23.9282718,24.8394952 23.2084514,24.8698693 22.7176119,24.4750058 L22.6161165,24.3838835 L14,15.767 L5.38388348,24.3838835 C4.89572811,24.8720388 4.10427189,24.8720388 3.61611652,24.3838835 C3.12796116,23.8957281 3.12796116,23.1042719 3.61611652,22.6161165 L12.233,14 L3.61611652,5.38388348 C3.16050485,4.9282718 3.13013074,4.20845138 3.52499419,3.71761187 L3.61611652,3.61611652 L3.52499419,3.71761187 Z</StreamGeometry>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <Style Selector="Button.icon">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="7"/>
+        
+        <Style Selector="^ > PathIcon">
+            <Setter Property="Width" Value="NaN"/>
+            <Setter Property="Height" Value="NaN"/>
+        </Style>
+        
+        <Style Selector="^.edit">
+            <Setter Property="Content">
+                <Template>
+                    <PathIcon Data="{StaticResource icon_edit_regular}"/>
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="^.checkmark">
+            <Setter Property="Content">
+                <Template>
+                    <PathIcon Data="{StaticResource icon_checkmark_regular}"/>
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="^.dismiss">
+            <Setter Property="Content">
+                <Template>
+                    <PathIcon Data="{StaticResource icon_dismiss_regular}"/>
+                </Template>
+            </Setter>
+        </Style>
+    </Style>
+</Styles>
