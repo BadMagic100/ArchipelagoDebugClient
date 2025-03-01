@@ -3,15 +3,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:dpos="clr-namespace:DialogHostAvalonia.Positioners;assembly=DialogHost.Avalonia"
              xmlns:avedit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:vm="clr-namespace:ArchipelagoDebugClient.ViewModels"
              xmlns:m="clr-namespace:ArchipelagoDebugClient.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArchipelagoDebugClient.Views.DataStorageView"
              x:DataType="vm:DataStorageViewModel">
-    <dha:DialogHost IsOpen="{Binding IsEditing}" CloseOnClickAway="False">
+    <dha:DialogHost IsOpen="{Binding IsEditing}" CloseOnClickAway="False" >
+        <dha:DialogHost.PopupPositioner>
+            <dpos:AlignmentDialogPopupPositioner HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50"/>       
+        </dha:DialogHost.PopupPositioner>
         <dha:DialogHost.DialogContent>
-            <Grid Margin="20" Width="400" RowDefinitions="Auto, Auto, Auto, Auto">
+            <Grid Margin="20" RowDefinitions="Auto, *, Auto, Auto">
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="0 5" HorizontalAlignment="Left">
                     <TextBlock.Inlines>
                         <Run Text="Now editing: "/>
@@ -21,8 +25,7 @@
                 <TextBox Grid.Row="1" Grid.Column="0" Margin="0 5"
                          AcceptsReturn="True" AcceptsTab="True"
                          FontFamily="Cascadia Code,Consolas,Menlo,Monospace" 
-                         Text="{Binding EditingValue}"
-                         Height="200"/>
+                         Text="{Binding EditingValue}"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Foreground="Red" Text="{Binding EditorErrorMessage}"
                            TextWrapping="Wrap" Margin="10" IsVisible="{Binding IsEditorErrorVisible}">
                     asdfasdfasdfadsf
@@ -42,7 +45,7 @@
                     <DataTemplate x:Key="EditorCell" x:DataType="m:ObjectHierarchy">
                         <Grid>
                             <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Value}"/>
-                            <Button Classes="icon edit" HorizontalAlignment="Right" Width="20" Height="20" Padding="2" 
+                            <Button Classes="icon edit" HorizontalAlignment="Right" Width="20" Height="20"
                                     IsVisible="{Binding IsRoot}"
                                     Command="{Binding $parent[TreeDataGrid].((vm:DataStorageViewModel)DataContext).OpenEditorCommand}"
                                     CommandParameter="{Binding}"/>

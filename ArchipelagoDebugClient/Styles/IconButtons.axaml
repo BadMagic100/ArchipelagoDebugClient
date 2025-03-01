@@ -15,7 +15,8 @@
     <Style Selector="Button.icon">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="7"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
         
         <Style Selector="^ > PathIcon">
             <Setter Property="Width" Value="NaN"/>

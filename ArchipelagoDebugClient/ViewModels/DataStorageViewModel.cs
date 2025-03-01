@@ -75,10 +75,10 @@ public class DataStorageViewModel : ViewModelBase
             Columns =
             {
                 new HierarchicalExpanderColumn<ObjectHierarchy>(
-                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children, 
+                    new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: new GridLength(10, GridUnitType.Star)), x => x.Children, 
                         isExpandedSelector: x => x.Expanded),
                 new TextColumn<ObjectHierarchy, string>("Type", x => x.Type),
-                new TemplateColumn<ObjectHierarchy>("Value", "EditorCell")
+                new TemplateColumn<ObjectHierarchy>("Value", "EditorCell", width: new GridLength(1, GridUnitType.Star))
             }
         };
 
