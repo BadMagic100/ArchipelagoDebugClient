@@ -5,7 +5,9 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace ArchipelagoDebugClient.ViewModels;
 
@@ -32,12 +34,16 @@ public class SettingsViewModel : ViewModelBase
     private ObservableAsPropertyHelper<ThemeVariant> _themeVariant;
     public ThemeVariant ThemeVariant => _themeVariant.Value;
 
+    public ReactiveCommand<Unit, Unit> DisconnectCommand { get; }
+
     public SettingsViewModel(SessionProvider sessionProvider, PersistentAppSettings settings) : base(sessionProvider)
     {
         _settings = settings;
         _themeVariant = this.WhenAnyValue(x => x.ThemeName)
             .Select(ThemeNameToThemeVariant)
             .ToProperty(this, x => x.ThemeVariant);
+
+        DisconnectCommand = ReactiveCommand.CreateFromTask(DisconnectAsync);
     }
 
     private ThemeVariant ThemeNameToThemeVariant(Theme theme)
@@ -49,5 +55,11 @@ public class SettingsViewModel : ViewModelBase
             Theme.System => ThemeVariant.Default,
             _ => throw new NotImplementedException()
         };
+    }
+
+    private async Task DisconnectAsync()
+    {
+        await Session!.Socket.DisconnectAsync();
+        sessionProvider.Session = null;
     }
 }

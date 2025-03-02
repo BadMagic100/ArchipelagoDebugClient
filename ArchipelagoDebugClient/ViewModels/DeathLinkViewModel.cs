@@ -82,6 +82,10 @@ public class DeathLinkViewModel : ViewModelBase
         {
             DeathLinkService = session.CreateDeathLinkService();
             DeathLinkService.OnDeathLinkReceived += OnDeathLinkRecieved;
+            if (DeathLinkEnabled)
+            {
+                DeathLinkService.EnableDeathLink();
+            }
         }
         else
         {
