@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ArchipelagoDebugClient.ViewModels"
+             xmlns:data="using:ArchipelagoDebugClient.ViewModels.DesignData"
+             xmlns:behaviors="using:ArchipelagoDebugClient.Behaviors"
+             xmlns:styling="using:Avalonia.Styling"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ArchipelagoDebugClient.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    <ScrollViewer>
+        <Grid Margin="20" HorizontalAlignment="Center" ColumnDefinitions="Auto, *" RowDefinitions="Auto" Width="300">
+            <Label Grid.Row="0" Grid.Column="0" Margin="10">Theme</Label>
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="0 5" HorizontalAlignment="Stretch" 
+                      ItemsSource="{x:Static vm:SettingsViewModel.ThemeVariants}"
+                      SelectedValue="{Binding ThemeName}"
+                      Name="ThemeSelector"/>
+        </Grid>    
+    </ScrollViewer>
+</UserControl>

@@ -18,6 +18,7 @@ public class MainViewModel : ViewModelBase
     public GiftingViewModel Gifting { get; }
     public DataStorageViewModel DataStorage { get; }
     public SlotDataViewModel SlotData { get; }
+    public SettingsViewModel Settings { get; }
 
     private string _address = "";
     public string Address
@@ -59,14 +60,16 @@ public class MainViewModel : ViewModelBase
         DeathLinkViewModel deathLink,
         GiftingViewModel gifting,
         DataStorageViewModel dataStorage,
-        SlotDataViewModel slotData) : base(sessionProvider)
-    { 
+        SlotDataViewModel slotData,
+        SettingsViewModel settings) : base(sessionProvider)
+    {
         MessageLog = messageLog;
         Locations = locations;
         DeathLink = deathLink;
         Gifting = gifting;
         DataStorage = dataStorage;
         SlotData = slotData;
+        Settings = settings;
 
         _isErrorVisible = this.WhenAnyValue(x => x.ErrorMessage)
             .Select(x => !string.IsNullOrWhiteSpace(x))
@@ -75,6 +78,7 @@ public class MainViewModel : ViewModelBase
         IObservable<bool> connectCanRun = this.WhenAnyValue(x => x.Address, x => x.Slot,
             (address, slot) => !string.IsNullOrWhiteSpace(address) && !string.IsNullOrWhiteSpace(slot));
         ConnectCommand = ReactiveCommand.CreateFromTask(ConnectAsync, connectCanRun);
+        Settings = settings;
     }
 
     private async Task ConnectAsync()

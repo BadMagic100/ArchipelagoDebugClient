@@ -51,6 +51,9 @@
             <TabItem Header="SlotData">
                 <views:SlotDataView DataContext="{Binding SlotData}"/>
             </TabItem>
+            <TabItem Header="Settings">
+                <views:SettingsView DataContext="{Binding Settings}"/>
+            </TabItem>
         </TabControl>
     </dha:DialogHost>
 </UserControl>

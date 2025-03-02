@@ -1,4 +1,5 @@
-﻿using ArchipelagoDebugClient.Services;
+﻿using ArchipelagoDebugClient.Models;
+using ArchipelagoDebugClient.Services;
 
 namespace ArchipelagoDebugClient.ViewModels.DesignData;
 
@@ -11,7 +12,8 @@ public class MainDesignData : MainViewModel
             new DeathLinkDesignData(),
             new GiftingDesignData(), 
             new DataStorageViewModel(new SessionProvider()), 
-            new SlotDataDesignData())
+            new SlotDataDesignData(),
+            new SettingsViewModel(new SessionProvider(), new PersistentAppSettings()))
     {
     }
 }
