@@ -13,11 +13,20 @@ public class SettingsViewModel : ViewModelBase
 {
     public static IReadOnlyList<Theme> ThemeVariants { get; } = Enum.GetValues<Theme>().ToList();
 
-    private Theme _theme;
+    private PersistentAppSettings _settings;
+
     public Theme ThemeName
     {
-        get => _theme;
-        set => this.RaiseAndSetIfChanged(ref _theme, value);
+        get => _settings.Theme;
+        set
+        {
+            if (!EqualityComparer<Theme>.Default.Equals(_settings.Theme, value))
+            {
+                this.RaisePropertyChanging();
+                _settings.Theme = value;
+                this.RaisePropertyChanged();
+            }
+        }
     }
 
     private ObservableAsPropertyHelper<ThemeVariant> _themeVariant;
@@ -25,7 +34,7 @@ public class SettingsViewModel : ViewModelBase
 
     public SettingsViewModel(SessionProvider sessionProvider, PersistentAppSettings settings) : base(sessionProvider)
     {
-        _theme = settings.Theme;
+        _settings = settings;
         _themeVariant = this.WhenAnyValue(x => x.ThemeName)
             .Select(ThemeNameToThemeVariant)
             .ToProperty(this, x => x.ThemeVariant);

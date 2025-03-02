@@ -9,6 +9,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using System;
+using System.IO;
 
 namespace ArchipelagoDebugClient;
 
@@ -21,7 +23,10 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        SystemTextJsonSuspensionDriver<PersistentAppSettings> suspensionDriver = new("settings.json",
+        string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string relativeSettingsPath = "BadMagic/ArchipelagoDebugClient/settings.json";
+        SystemTextJsonSuspensionDriver<PersistentAppSettings> suspensionDriver = new(
+            Path.Combine(localAppData, relativeSettingsPath),
             AppSettingsSerializationContext.Default.PersistentAppSettings);
         AutoSuspendHelper suspension = new(ApplicationLifetime!);
         RxApp.SuspensionHost.CreateNewAppState = () => new PersistentAppSettings();

@@ -30,6 +30,11 @@ internal class SystemTextJsonSuspensionDriver<T>(string file, JsonTypeInfo<T> ty
     {
         return Observable.FromAsync(async () =>
         {
+            string? dir = Path.GetDirectoryName(file);
+            if (dir != null && !Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             using Stream stream = File.OpenWrite(file);
             await JsonSerializer.SerializeAsync(stream, (T)state, typeInfo);
             return Unit.Default;
