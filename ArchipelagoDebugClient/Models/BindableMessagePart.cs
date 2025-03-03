@@ -1,16 +1,16 @@
-﻿using Archipelago.MultiClient.Net.MessageLog.Parts;
-using Avalonia.Media;
+﻿using Archipelago.MultiClient.Net.Colors;
+using Archipelago.MultiClient.Net.MessageLog.Parts;
 
 namespace ArchipelagoDebugClient.Models;
 
 public class BindableMessagePart
 {
     public string Text { get; init; }
-    public Color Color { get; }
+    public PaletteColor? Color { get; }
     public bool IsBackgroundColor { get; }
     public MessagePartType Type { get; }
 
-    public BindableMessagePart(string text, Color color, bool isBackgroundColor = false, MessagePartType type = MessagePartType.Text)
+    public BindableMessagePart(string text, PaletteColor? color, bool isBackgroundColor = false, MessagePartType type = MessagePartType.Text)
     {
         Text = text;
         Color = color;
@@ -21,7 +21,7 @@ public class BindableMessagePart
     public BindableMessagePart(MessagePart part)
     {
         Text = part.Text;
-        Color = new Color(255, part.Color.R, part.Color.G, part.Color.B);
+        Color = part.PaletteColor;
         IsBackgroundColor = part.IsBackgroundColor;
         Type = part.Type;
     }

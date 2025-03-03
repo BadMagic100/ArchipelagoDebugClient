@@ -3,6 +3,6 @@
                     xmlns:converters="clr-namespace:ArchipelagoDebugClient.Converters">
     
     <!--Converters-->
-    <converters:LogMessageConverter x:Key="LogMessageConverter" />
+    <converters:LogMessageConverter x:Key="LogMessageConverter" Palette="{DynamicResource MultiClientPalette}" />
     
 </ResourceDictionary>

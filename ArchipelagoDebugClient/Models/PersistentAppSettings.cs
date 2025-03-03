@@ -10,7 +10,7 @@ public class PersistentAppSettings
 [JsonSourceGenerationOptions(
     WriteIndented = true,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
-    Converters = [typeof(JsonStringEnumConverter)]
+    Converters = [typeof(JsonStringEnumConverter<Theme>)]
 )]
 [JsonSerializable(typeof(PersistentAppSettings))]
 internal partial class AppSettingsSerializationContext : JsonSerializerContext { }

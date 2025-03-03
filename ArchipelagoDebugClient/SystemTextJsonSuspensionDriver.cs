@@ -35,7 +35,7 @@ internal class SystemTextJsonSuspensionDriver<T>(string file, JsonTypeInfo<T> ty
             {
                 Directory.CreateDirectory(dir);
             }
-            using Stream stream = File.OpenWrite(file);
+            using Stream stream = File.Create(file);
             await JsonSerializer.SerializeAsync(stream, (T)state, typeInfo);
             return Unit.Default;
         });
