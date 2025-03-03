@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/ArchipelagoDebugClient/"
     schedule:
       interval: "weekly"
     groups:
