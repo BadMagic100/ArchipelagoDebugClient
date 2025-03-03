@@ -8,3 +8,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      avalonia-core:
+        patterns:
+          - "Avalonia*"
+        exclude-patterns:
+          - "Avalonia.Controls.TreeDataGrid"
+          - "Avalonia.Xaml.Behaviors"
