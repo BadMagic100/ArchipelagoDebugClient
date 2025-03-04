@@ -14,6 +14,8 @@ public class ThemedPaletteDictionary : ResourceDictionary
     // experimentally, meeting WCAG AAA tends to bring the colors indistinguishable from black text
     public static Palette<Color> LightPalette { get; } = new Palette<Color>(Colors.Black, new()
     {
+        [PaletteColor.White] = Colors.White,
+        [PaletteColor.Black] = Colors.Black,
         [PaletteColor.Red] = new Color(0xFF, 0xEE, 0x00, 0x00),
         [PaletteColor.Green] = new Color(0xFF, 0x00, 0x80, 0x00),
         [PaletteColor.Blue] = new Color(0xFF, 0x00, 0x00, 0xFF),
