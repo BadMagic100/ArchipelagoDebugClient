@@ -4,6 +4,7 @@ using ArchipelagoDebugClient.Services;
 using ReactiveUI;
 using System;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -91,20 +92,13 @@ public class MainViewModel : ViewModelBase
 
         if (infoLogin is LoginSuccessful success)
         {
-            int playerCount = session.Players.AllPlayers.Count(p => !p.IsGroup);
             string game = session.Players.ActivePlayer.Game;
-            bool isRaceMode = session.DataStorage.GetRaceMode();
+            string? guardRailError = await GetGuardRailErrorMessage(session);
             await session.Socket.DisconnectAsync();
 
-            // always includes player for server
-            if (playerCount > 3)
+            if (guardRailError != null)
             {
-                ErrorMessage = "Debug client only supports connecting to games with 2 or fewer players to prevent abuse";
-                return;
-            }
-            if (isRaceMode)
-            {
-                ErrorMessage = "Debug client cannot be used in race mode to prevent abuse";
+                ErrorMessage = guardRailError;
                 return;
             }
 
@@ -146,6 +140,40 @@ public class MainViewModel : ViewModelBase
         }
         return await session.LoginAsync(game, name, ItemsHandlingFlags.NoItems, 
             new Version(0, 5, 0), tags: tags, password: password, requestSlotData: false);
+    }
+
+    private async Task<string?> GetGuardRailErrorMessage(IArchipelagoSession session)
+    {
+        // games on localhost are always safe - malevolent hosts can already use admin console here
+        // if they want to grief
+        string trimmedAddress = Address;
+        if (trimmedAddress.Split("://") is [_, string hostPort])
+        {
+            trimmedAddress = hostPort;
+        }
+        if (trimmedAddress.Split(":") is [string hostname, ..])
+        {
+            trimmedAddress = hostname;
+        }
+        IPHostEntry hostEntry = await Dns.GetHostEntryAsync(trimmedAddress);
+        if (hostEntry.AddressList.Any(addr => addr.Equals(IPAddress.Loopback) || addr.Equals(IPAddress.IPv6Loopback)))
+        {
+            return null;
+        }
+
+        int playerCount = session.Players.AllPlayers.Count(p => !p.IsGroup);
+        bool isRaceMode = session.DataStorage.GetRaceMode();
+
+        // always includes player for server
+        if (playerCount > 3)
+        {
+            return "Debug client only supports connecting to non-local games with 2 or fewer players to prevent abuse";
+        }
+        if (isRaceMode)
+        {
+            return "Debug client cannot be used in race mode to prevent abuse";
+        }
+        return null;
     }
 
     private string BuildErrorForFailedLogin(LoginFailure failure)
