@@ -138,8 +138,7 @@ public class MainViewModel : ViewModelBase
         {
             return new LoginFailure($"Connection failed: {e.Message}");
         }
-        return await session.LoginAsync(game, name, ItemsHandlingFlags.NoItems, 
-            new Version(0, 5, 0), tags: tags, password: password, requestSlotData: false);
+        return await session.LoginAsync(game, name, ItemsHandlingFlags.NoItems, tags: tags, password: password, requestSlotData: false);
     }
 
     private async Task<string?> GetGuardRailErrorMessage(IArchipelagoSession session)
