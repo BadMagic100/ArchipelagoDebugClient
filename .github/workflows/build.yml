@@ -33,7 +33,7 @@ jobs:
     - name: Publish
       run: dotnet publish -r ${{ matrix.os }} -c "$BUILD_CONFIGURATION" --self-contained
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ format('ArchipelagoDebugClient-{0}', matrix.os) }}
         path: ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish', env.BUILD_CONFIGURATION, matrix.os) }}
