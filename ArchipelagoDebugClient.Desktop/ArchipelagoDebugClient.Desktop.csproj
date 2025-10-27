@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.8" />
     <ProjectReference Include="..\ArchipelagoDebugClient\ArchipelagoDebugClient.csproj" />
   </ItemGroup>
 </Project>
