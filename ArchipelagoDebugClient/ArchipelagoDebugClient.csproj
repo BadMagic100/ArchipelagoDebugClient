@@ -33,7 +33,7 @@
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.3.0.6" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="DialogHost.Avalonia" Version="0.9.3" />
+    <PackageReference Include="DialogHost.Avalonia" Version="0.10.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="DynamicData" Version="9.4.1" />
   </ItemGroup>
