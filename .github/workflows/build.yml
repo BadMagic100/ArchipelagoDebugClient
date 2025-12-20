@@ -33,9 +33,6 @@ jobs:
       run: dotnet build -c "$BUILD_CONFIGURATION"
     - name: Publish
       run: dotnet publish -r ${{ matrix.os }} -c "$BUILD_CONFIGURATION" --self-contained
-    - name: Set executable
-      if: matrix.os != 'win-x64'
-      run: chmod +x ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish/ArchipelagoDebugClient.Desktop', env.BUILD_CONFIGURATION, matrix.os) }}
     - name: Compress artifacts
       run: |
         if [[ "${{ matrix.os }}" == "win-x64" ]]; then
