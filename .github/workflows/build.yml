@@ -34,7 +34,7 @@ jobs:
       run: dotnet publish -r ${{ matrix.os }} -c "$BUILD_CONFIGURATION" --self-contained
     - name: Set executable
       if: matrix.os != 'win-x64'
-      run: chmod +x ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish/ArchipelagoDebugClient', env.BUILD_CONFIGURATION, matrix.os) }}
+      run: chmod +x ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish/ArchipelagoDebugClient.Desktop', env.BUILD_CONFIGURATION, matrix.os) }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v6
       with:
