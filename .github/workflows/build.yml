@@ -32,6 +32,9 @@ jobs:
       run: dotnet build -c "$BUILD_CONFIGURATION"
     - name: Publish
       run: dotnet publish -r ${{ matrix.os }} -c "$BUILD_CONFIGURATION" --self-contained
+    - name: Set executable
+      if: matrix.os != "win-x64"
+      run: chmod +x ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish/ArchipelagoDebugClient', env.BUILD_CONFIGURATION, matrix.os) }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v6
       with:
@@ -48,7 +51,16 @@ jobs:
         with:
           path: artifacts
       - name: Zip artifacts
-        run: for i in artifacts/*/; do zip -r "${i%/}.zip" "$i"; done
+        run: |
+          if [[ "$(uname -s)" == "Linux" || "$(uname -s)" == "Darwin" ]]; then
+            for i in artifacts/*/; do
+              tar -czf "${i%/}.tar.gz" -C "$i" .
+            done
+          else
+            for i in artifacts/*/; do
+              zip -j -r "${i%/}.zip" "$i"/*
+            done
+          fi
       - name: Publish Release
         uses: softprops/action-gh-release@v2
         with:
