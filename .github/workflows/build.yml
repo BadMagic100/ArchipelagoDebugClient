@@ -24,10 +24,11 @@ jobs:
         os: ["win-x64", "linux-x64", "linux-arm64", "osx-x64", "osx-arm64"]
     steps:
     - uses: actions/checkout@v6
+    - run: pwd
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 10.0.x
     - name: Build
       run: dotnet build -c "$BUILD_CONFIGURATION"
     - name: Publish
@@ -35,38 +36,34 @@ jobs:
     - name: Set executable
       if: matrix.os != 'win-x64'
       run: chmod +x ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish/ArchipelagoDebugClient.Desktop', env.BUILD_CONFIGURATION, matrix.os) }}
+    - name: Compress artifacts
+      run: |
+        if [[ "${{ matrix.os }}" == "win-x64" ]]; then
+          zip -j -r "ArchipelagoDebugClient-${{ matrix.os }}.zip" ArchipelagoDebugClient.Desktop/bin/${{ env.BUILD_CONFIGURATION }}/net8.0/${{ matrix.os }}/publish/*
+        else
+          tar -czf "ArchipelagoDebugClient-${{ matrix.os }}.tar.gz" -C ArchipelagoDebugClient.Desktop/bin/${{ env.BUILD_CONFIGURATION }}/net8.0/${{ matrix.os }}/publish .
+        fi
     - name: Upload build artifacts
       uses: actions/upload-artifact@v6
       with:
         name: ${{ format('ArchipelagoDebugClient-{0}', matrix.os) }}
-        path: ${{ format('ArchipelagoDebugClient.Desktop/bin/{0}/net8.0/{1}/publish', env.BUILD_CONFIGURATION, matrix.os) }}
+        path: ${{ format('ArchipelagoDebugClient-{0}.{1}', matrix.os, matrix.os == 'win-x64' && 'zip' || 'tar.gz') }}
   release:
     needs:
       - build
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v7
         with:
           path: artifacts
-      - name: Zip artifacts
-        run: |
-          if [[ "$(uname -s)" == "Linux" || "$(uname -s)" == "Darwin" ]]; then
-            for i in artifacts/*/; do
-              tar -czf "${i%/}.tar.gz" -C "$i" .
-            done
-          else
-            for i in artifacts/*/; do
-              zip -j -r "${i%/}.zip" "$i"/*
-            done
-          fi
-          ls -l
       - name: Publish Release
         uses: softprops/action-gh-release@v2
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         with:
           draft: false
           generate_release_notes: true
           fail_on_unmatched_files: true
-          files: artifacts/*{.zip,.tar.gz}
+          files: |-
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
