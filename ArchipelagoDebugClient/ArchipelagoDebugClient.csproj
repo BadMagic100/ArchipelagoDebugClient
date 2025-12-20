@@ -5,14 +5,11 @@
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <DebugType>embedded</DebugType>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Views\DataStorageView.axaml~RF3c91ebce.TMP" />
   </ItemGroup>
 
   <ItemGroup>
