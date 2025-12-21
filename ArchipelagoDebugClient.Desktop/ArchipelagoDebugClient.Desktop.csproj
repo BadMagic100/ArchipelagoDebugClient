@@ -9,6 +9,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PublishSingleFile>True</PublishSingleFile>
     <DebugType>embedded</DebugType>
+    <AssemblyName>ArchipelagoDebugClient</AssemblyName>
+    <RootNamespace>ArchipelagoDebugClient</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,6 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <ProjectReference Include="..\ArchipelagoDebugClient\ArchipelagoDebugClient.csproj" />
+    <ProjectReference Include="..\ArchipelagoDebugClient.Core\ArchipelagoDebugClient.Core.csproj" />
   </ItemGroup>
 </Project>

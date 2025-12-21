@@ -2,7 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 
-namespace ArchipelagoDebugClient.Desktop;
+namespace ArchipelagoDebugClient;
 
 class Program
 {

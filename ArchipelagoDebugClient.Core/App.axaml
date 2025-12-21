@@ -8,14 +8,14 @@
         <FluentTheme />
         <dha:DialogHostStyles />
         <StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml"/>
-        <StyleInclude Source="avares://ArchipelagoDebugClient/Styles/IconButtons.axaml"/>
+        <StyleInclude Source="avares://ArchipelagoDebugClient.Core/Styles/IconButtons.axaml"/>
     </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <res:ThemedPaletteDictionary/>
-                <MergeResourceInclude Source="avares://ArchipelagoDebugClient/Resources/Resources.axaml"/>
+                <MergeResourceInclude Source="avares://ArchipelagoDebugClient.Core/Resources/Resources.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

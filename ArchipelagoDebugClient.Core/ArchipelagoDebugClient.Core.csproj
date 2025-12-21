@@ -6,6 +6,7 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <DebugType>embedded</DebugType>
     <IsPackable>False</IsPackable>
+    <RootNamespace>ArchipelagoDebugClient</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
