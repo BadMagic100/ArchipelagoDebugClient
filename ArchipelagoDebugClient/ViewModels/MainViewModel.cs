@@ -107,6 +107,7 @@ public class MainViewModel : ViewModelBase
             if (realLogin is LoginSuccessful loginSuccessful)
             {
                 sessionProvider.Session = session;
+                ErrorMessage = "";
             }
             else if (realLogin is LoginFailure loginFailure)
             {
