@@ -41,7 +41,7 @@ jobs:
           tar -czf "ArchipelagoDebugClient-${{ matrix.os }}.tar.gz" -C ArchipelagoDebugClient.Desktop/bin/${{ env.BUILD_CONFIGURATION }}/net8.0/${{ matrix.os }}/publish .
         fi
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ format('ArchipelagoDebugClient-{0}', matrix.os) }}
         path: ${{ format('ArchipelagoDebugClient-{0}.{1}', matrix.os, matrix.os == 'win-x64' && 'zip' || 'tar.gz') }}
