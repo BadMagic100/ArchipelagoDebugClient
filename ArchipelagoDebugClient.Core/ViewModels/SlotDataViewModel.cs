@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 
 namespace ArchipelagoDebugClient.ViewModels;
+
 public class SlotDataViewModel : ViewModelBase
 {
     public ObservableCollection<ObjectHierarchy> SlotDataFields { get; } = [];
@@ -18,7 +19,7 @@ public class SlotDataViewModel : ViewModelBase
     {
         HierarchySource = new HierarchicalTreeDataGridSource<ObjectHierarchy>(SlotDataFields)
         {
-            Columns = 
+            Columns =
             {
                 new HierarchicalExpanderColumn<ObjectHierarchy>(
                     new TextColumn<ObjectHierarchy, string>("Name", x => x.Name, width: GridLength.Star), x => x.Children),
@@ -34,8 +35,11 @@ public class SlotDataViewModel : ViewModelBase
     {
         if (session != null)
         {
-            JObject slotData = await session.DataStorage.GetSlotDataAsync<JObject>();
-            SlotDataFields.AddRange(ObjectHierarchy.GetHierarchyLists(slotData));
+            JObject? slotData = await session.DataStorage.GetSlotDataAsync<JObject?>();
+            if (slotData != null)
+            {
+                SlotDataFields.AddRange(ObjectHierarchy.GetHierarchyLists(slotData));
+            }
         }
         else
         {
