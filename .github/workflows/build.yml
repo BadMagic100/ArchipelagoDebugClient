@@ -23,7 +23,7 @@ jobs:
       matrix:
         os: ["win-x64", "linux-x64", "linux-arm64", "osx-x64", "osx-arm64"]
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - run: pwd
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
